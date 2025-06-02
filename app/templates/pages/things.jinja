@@ -1,6 +1,5 @@
 {#=====================================================
-  Home page
-  - Hero style greeting banner
+  Things page
   - List of things passed in as 'things' array
   - Form for adding a new thing
 =====================================================#}
@@ -10,7 +9,7 @@
 
 {% block title %}
 
-    Flask Demo
+    Flask Demo - All Things
 
 {% endblock %}
 
@@ -27,7 +26,7 @@
 
                 <li>
                     <a href="/thing/{{ thing.id }}">
-                        {{ thing.name }}
+                        <strong>{{ thing.name }}</strong> - owned by {{ thing.owner }}
                     </a>
                 </li>
 
@@ -41,32 +40,37 @@
     </article>
 
 
-    <article>
+    {# Only show form if user is logged in #}
+    {% if session.user_id %}
 
-        <h3>Add a New Thing...</h3>
+        <article>
 
-        <form action="/add" method="POST">
+            <h3>Add a New Thing...</h3>
 
-            <input
-                type="text"
-                name="name"
-                placeholder="Name of new thing"
-                required
-            >
+            <form action="/add" method="POST">
 
-            <input
-                type="number"
-                name="price"
-                min="0"
-                placeholder="Price in dollars"
-                required
-            >
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Name of new thing"
+                    required
+                >
 
-            <button>Add the Thing</button>
+                <input
+                    type="number"
+                    name="price"
+                    min="0"
+                    placeholder="Price in dollars"
+                    required
+                >
 
-        </form>
+                <button>Add the Thing</button>
 
-    </article>
+            </form>
+
+        </article>
+
+    {% endif %}
 
 {% endblock %}
 

@@ -2,6 +2,9 @@
 
 This is template for a simple [Flask](https://flask.palletsprojects.com) application with a [Turso](https://turso.tech/) SQLite database to store and provide data. The app uses [Jinja2](https://jinja.palletsprojects.com/templates/) templating for structuring pages and data, and [PicoCSS](https://picocss.com/) for styling.
 
+This app provides **user sign-up, login and logout**. Certain features of the app are adjusted / restricted based on whether the user is logged in or not: Menu items, DB actions like add and delete, etc.
+
+
 ## Project Structure
 
 - **app** folder
@@ -27,14 +30,39 @@ This is template for a simple [Flask](https://flask.palletsprojects.com) applica
         - **db.py** - Functions for database access
         - **errors.py** - Functions for error reporting
         - **session.py** - Functions to manage session data
+        - **auth.py** - Functions to manage authentication
 
     - **\_\_init__.py** - App launcher code
 
 - **requirements.txt** - Defines the Python modules needed
 
 - **.env** - Environment variable, e.g. Turso secrets
-- **.env-example** - Demo .env file
+- **.env.example** - Demo .env file
 - **.gitignore** - Prevents venv and .env from being pushed
+
+
+## Demo Database Schema
+
+The database used for this demo has the following schema:
+
+```sql
+CREATE TABLE `users` (
+	`id`            INTEGER PRIMARY KEY AUTOINCREMENT,
+    `name`          TEXT NOT NULL,
+	`username`      TEXT NOT NULL UNIQUE,
+	`password_hash` TEXT NOT NULL
+);
+
+CREATE TABLE `things` (
+    `id`      INTEGER PRIMARY KEY AUTOINCREMENT,
+    `name`    TEXT    NOT NULL,
+    `price`   INTEGER NOT NULL DEFAULT 0,
+    `user_id` INTEGER NOT NULL,
+
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+    ON UPDATE CASCADE ON DELETE CASCADE
+);
+```
 
 
 ## Project Setup and Deployment

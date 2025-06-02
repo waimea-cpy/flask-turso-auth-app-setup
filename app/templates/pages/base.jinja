@@ -37,9 +37,27 @@
             </ul>
 
             <ul>
+                {% if session.user_name %}
+
+                    <li>Hello, {{ session.user_name }}</li>
+
+                {% endif %}
+
                 <li><a href="/">Home</a></li>
                 <li><a href="/things">Things</a></li>
                 <li><a href="/about">About</a></li>
+
+                {% if session.user_id %}
+
+                    <li><a href="/logout">Logout</a></li>
+
+                {% else %}
+
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+
+                {% endif %}
+
             </ul>
         </nav>
     </header>
