@@ -48,7 +48,7 @@ The database used for this demo has the following schema:
 ```sql
 CREATE TABLE `users` (
 	`id`            INTEGER PRIMARY KEY AUTOINCREMENT,
-    `name`          TEXT NOT NULL,
+        `name`          TEXT NOT NULL,
 	`username`      TEXT NOT NULL UNIQUE,
 	`password_hash` TEXT NOT NULL
 );
