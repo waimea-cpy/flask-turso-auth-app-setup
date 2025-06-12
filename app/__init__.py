@@ -126,10 +126,13 @@ def add_a_thing():
     name = html.escape(name)
     price = html.escape(price)
 
+    # Get the user id from the session
+    user_id = session["user_id"]
+
     with connect_db() as client:
         # Add the thing to the DB
         sql = "INSERT INTO things (name, price, user_id) VALUES (?, ?, ?)"
-        values = [name, price, session["user_id"]]
+        values = [name, price, user_id]
         client.execute(sql, values)
 
         # Go back to the home page
@@ -144,10 +147,13 @@ def add_a_thing():
 @app.get("/delete/<int:id>")
 @login_required
 def delete_a_thing(id):
+    # Get the user id from the session
+    user_id = session["user_id"]
+
     with connect_db() as client:
         # Delete the thing from the DB only if we own it
         sql = "DELETE FROM things WHERE id=? AND user_id=?"
-        values = [id, session["user_id"]]
+        values = [id, user_id]
         client.execute(sql, values)
 
         # Go back to the home page
@@ -217,8 +223,9 @@ def login_user():
             # Hash matches?
             if check_password_hash(hash, password):
                 # Yes, so save info in the session
-                session["user_id"] = user["id"]
+                session["user_id"]   = user["id"]
                 session["user_name"] = user["name"]
+                session["logged_in"] = True
 
                 # And head back to the home page
                 flash("Login successful", "success")
@@ -237,6 +244,7 @@ def logout():
     # Clear the details from the session
     session.pop("user_id", None)
     session.pop("user_name", None)
+    session.pop("logged_in", None)
 
     # And head back to the home page
     flash("Logged out successfully", "success")
