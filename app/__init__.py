@@ -8,18 +8,18 @@ import html
 
 from app.helpers.session import init_session
 from app.helpers.db import connect_db
-from app.helpers.errors import register_error_handlers, not_found_error
+from app.helpers.errors import init_error, not_found_error
+from app.helpers.logging import init_logging
 from app.helpers.auth import login_required
 
 
 # Create the app
 app = Flask(__name__)
 
-# Setup a session for messages, etc.
-init_session(app)
-
-# Handle 404 and 500 errors
-register_error_handlers(app)
+# Configure app
+init_session(app)   # Setup a session for messages, etc.
+init_logging(app)   # Log requests
+init_error(app)     # Handle errors and exceptions
 
 
 #-----------------------------------------------------------
@@ -151,7 +151,7 @@ def delete_a_thing(id):
         client.execute(sql, values)
 
         # Go back to the home page
-        flash("Thing deleted", "warning")
+        flash("Thing deleted", "success")
         return redirect("/things")
 
 
