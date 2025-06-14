@@ -71,7 +71,8 @@ def show_all_things():
 
             ORDER BY things.name ASC
         """
-        result = client.execute(sql)
+        params=[]
+        result = client.execute(sql, params)
         things = result.rows
 
         # And show them on the page
@@ -97,8 +98,8 @@ def show_one_thing(id):
 
             WHERE things.id=?
         """
-        values = [id]
-        result = client.execute(sql, values)
+        params = [id]
+        result = client.execute(sql, params)
 
         # Did we get a result?
         if result.rows:
@@ -132,8 +133,8 @@ def add_a_thing():
     with connect_db() as client:
         # Add the thing to the DB
         sql = "INSERT INTO things (name, price, user_id) VALUES (?, ?, ?)"
-        values = [name, price, user_id]
-        client.execute(sql, values)
+        params = [name, price, user_id]
+        client.execute(sql, params)
 
         # Go back to the home page
         flash(f"Thing '{name}' added", "success")
@@ -153,8 +154,8 @@ def delete_a_thing(id):
     with connect_db() as client:
         # Delete the thing from the DB only if we own it
         sql = "DELETE FROM things WHERE id=? AND user_id=?"
-        values = [id, user_id]
-        client.execute(sql, values)
+        params = [id, user_id]
+        client.execute(sql, params)
 
         # Go back to the home page
         flash("Thing deleted", "success")
@@ -174,8 +175,8 @@ def add_user():
     with connect_db() as client:
         # Attempt to find an existing record for that user
         sql = "SELECT * FROM users WHERE username = ?"
-        values = [username]
-        result = client.execute(sql, values)
+        params = [username]
+        result = client.execute(sql, params)
 
         # No existing record found, so safe to add the user
         if not result.rows:
@@ -187,8 +188,8 @@ def add_user():
 
             # Add the user to the users table
             sql = "INSERT INTO users (name, username, password_hash) VALUES (?, ?, ?)"
-            values = [name, username, hash]
-            client.execute(sql, values)
+            params = [name, username, hash]
+            client.execute(sql, params)
 
             # And let them know it was successful and they can login
             flash("Registration successful", "success")
@@ -211,8 +212,8 @@ def login_user():
     with connect_db() as client:
         # Attempt to find a record for that user
         sql = "SELECT * FROM users WHERE username = ?"
-        values = [username]
-        result = client.execute(sql, values)
+        params = [username]
+        result = client.execute(sql, params)
 
         # Did we find a record?
         if result.rows:
