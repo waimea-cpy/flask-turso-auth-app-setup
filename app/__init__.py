@@ -7,10 +7,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import html
 
 from app.helpers.session import init_session
-from app.helpers.db import connect_db
-from app.helpers.errors import init_error, not_found_error
+from app.helpers.db      import connect_db
+from app.helpers.errors  import init_error, not_found_error
 from app.helpers.logging import init_logging
-from app.helpers.auth import login_required
+from app.helpers.auth    import login_required
+from app.helpers.time    import init_datetime, utc_timestamp, utc_timestamp_now
 
 
 # Create the app
@@ -20,6 +21,7 @@ app = Flask(__name__)
 init_session(app)   # Setup a session for messages, etc.
 init_logging(app)   # Log requests
 init_error(app)     # Handle errors and exceptions
+init_datetime(app)  # Handle UTC dates in timestamps
 
 
 #-----------------------------------------------------------
