@@ -41,22 +41,6 @@ def about():
 
 
 #-----------------------------------------------------------
-# User registration form route
-#-----------------------------------------------------------
-@app.get("/register")
-def register_form():
-    return render_template("pages/register.jinja")
-
-
-#-----------------------------------------------------------
-# User login form route
-#-----------------------------------------------------------
-@app.get("/login")
-def login_form():
-    return render_template("pages/login.jinja")
-
-
-#-----------------------------------------------------------
 # Things page route - Show all the things, and new thing form
 #-----------------------------------------------------------
 @app.get("/things/")
@@ -125,9 +109,8 @@ def add_a_thing():
     name  = request.form.get("name")
     price = request.form.get("price")
 
-    # Sanitise the inputs
+    # Sanitise the text inputs
     name = html.escape(name)
-    price = html.escape(price)
 
     # Get the user id from the session
     user_id = session["user_id"]
@@ -162,6 +145,27 @@ def delete_a_thing(id):
         # Go back to the home page
         flash("Thing deleted", "success")
         return redirect("/things")
+
+
+
+
+
+
+
+#-----------------------------------------------------------
+# User registration form route
+#-----------------------------------------------------------
+@app.get("/register")
+def register_form():
+    return render_template("pages/register.jinja")
+
+
+#-----------------------------------------------------------
+# User login form route
+#-----------------------------------------------------------
+@app.get("/login")
+def login_form():
+    return render_template("pages/login.jinja")
 
 
 #-----------------------------------------------------------
