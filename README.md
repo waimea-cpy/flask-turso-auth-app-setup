@@ -31,6 +31,7 @@ This app provides **user sign-up, login and logout**. Certain features of the ap
         - **errors.py** - Functions for error reporting
         - **session.py** - Functions to manage session data
         - **auth.py** - Functions to manage authentication
+        - **time.py** - Functions to help format timestamps
 
     - **\_\_init__.py** - App launcher code
 
